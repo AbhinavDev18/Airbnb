@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@theme {
+  /*
+   * Figtree stands in for Airbnb Cereal, which is proprietary and not ours to
+   * redistribute. It is the same class of geometric sans, covers the same
+   * 300..900 variable range, and is what the reference itself falls back to.
+   * Loaded via next/font in layout.tsx, which self-hosts it at build time and
+   * exposes it as --font-figtree.
+   */
+  --font-sans:
+    var(--font-figtree), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+
+  /* Airbnb's palette, sampled off the reference render. */
+  --color-ink: #222222; /* primary text */
+  --color-muted: #6a6a6a; /* secondary text */
+  --color-faint: #717171; /* tertiary / captions */
+  --color-line: #dddddd; /* hairline borders */
+  --color-line-soft: #ebebeb; /* section dividers */
+  --color-rausch: #ff385c; /* brand accent */
+  --color-rausch-dark: #e00b41; /* accent, pressed */
+  --color-surface: #ffffff;
+  --color-hover: #f7f7f7; /* neutral hover wash */
+  --color-skeleton: #ebebeb;
+
+  /* The reference centres content in a fixed 1120px column. */
+  --spacing-container: 1120px;
+  --spacing-main-col: 652px;
+
+  --radius-card: 12px;
+  --radius-hero: 12px;
+  --radius-pill: 999px;
+
+  /* Airbnb's standard easing — used for every hover/scale transition. */
+  --ease-airbnb: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  /*
+   * Only show focus rings for keyboard users. Mouse users clicking a photo
+   * shouldn't get a ring, but tab navigation must always be visible.
+   */
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Respect reduced-motion for every transition and animation on the page. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Visible only to screen readers, until focused (skip links). */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Airbnb clamps long descriptions to N lines with a "Show more" affordance. */
+  .clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .clamp-6 {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Locks background scroll while an overlay is open, without layout shift. */
+  .scroll-locked {
+    overflow: hidden;
+  }
+}

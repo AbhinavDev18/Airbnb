@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 940" width="1400" height="940" font-family="Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#8a8a8a"/>
+    </marker>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#ff385c"/>
+    </marker>
+    <style>
+      .lane   { fill:#fafafa; stroke:#e6e6e6; stroke-width:1; rx:14 }
+      .lane-t { font-size:13px; font-weight:700; fill:#717171; letter-spacing:.08em }
+      .box    { fill:#ffffff; stroke:#dddddd; stroke-width:1.5; rx:10 }
+      .box-a  { fill:#fff5f7; stroke:#ff385c; stroke-width:1.5; rx:10 }
+      .db     { fill:#ffffff; stroke:#222222; stroke-width:1.5; rx:10 }
+      .t      { font-size:14px; font-weight:600; fill:#222222 }
+      .s      { font-size:11.5px; fill:#717171 }
+      .edge   { stroke:#8a8a8a; stroke-width:1.4; fill:none; marker-end:url(#a) }
+      .edge-h { stroke:#ff385c; stroke-width:2; fill:none; marker-end:url(#ah) }
+      .elabel { font-size:11px; fill:#717171; font-style:italic }
+    </style>
+  </defs>
+
+  <rect width="1400" height="940" fill="#ffffff"/>
+  <text x="40" y="46" font-size="24" font-weight="700" fill="#222">Vacation-rental marketplace — production architecture</text>
+  <text x="40" y="70" class="s" font-size="13">Read path optimised for scale (pink) · write path optimised for correctness (grey)</text>
+
+  <!-- CLIENT -->
+  <rect class="lane" x="40" y="96" width="220" height="104"/>
+  <text class="lane-t" x="56" y="120">CLIENT</text>
+  <rect class="box-a" x="56" y="132" width="188" height="52"/>
+  <text class="t" x="72" y="154">Browser · iOS · Android</text>
+  <text class="s" x="72" y="172">SEO-critical HTML</text>
+
+  <!-- EDGE -->
+  <rect class="lane" x="300" y="96" width="250" height="290"/>
+  <text class="lane-t" x="316" y="120">EDGE — GLOBAL PoPs</text>
+  <rect class="box" x="316" y="132" width="218" height="52"/>
+  <text class="t" x="332" y="154">WAF · Bot · DDoS</text>
+  <text class="s" x="332" y="172">rate limiting, filtering</text>
+  <rect class="box-a" x="316" y="198" width="218" height="60"/>
+  <text class="t" x="332" y="220">CDN</text>
+  <text class="s" x="332" y="238">static assets + ISR HTML</text>
+  <text class="s" x="332" y="252">cache hit never hits origin</text>
+  <rect class="box-a" x="316" y="272" width="218" height="60"/>
+  <text class="t" x="332" y="294">Image CDN</text>
+  <text class="s" x="332" y="312">resize · WebP/AVIF</text>
+  <text class="s" x="332" y="326">12 MB original → 40 KB cell</text>
+
+  <!-- WEB -->
+  <rect class="lane" x="590" y="96" width="250" height="290"/>
+  <text class="lane-t" x="606" y="120">WEB TIER — STATELESS</text>
+  <rect class="box-a" x="606" y="132" width="218" height="74"/>
+  <text class="t" x="622" y="154">Next.js SSR / ISR</text>
+  <text class="s" x="622" y="172">server components default</text>
+  <text class="s" x="622" y="186">overlays = URL state,</text>
+  <text class="s" x="622" y="200">deep-linkable + SSR-able</text>
+  <rect class="box" x="606" y="220" width="218" height="60"/>
+  <text class="t" x="622" y="242">BFF / GraphQL gateway</text>
+  <text class="s" x="622" y="260">fan-out → one payload</text>
+  <text class="s" x="622" y="274">per screen</text>
+  <rect class="box" x="606" y="294" width="218" height="38"/>
+  <text class="s" x="622" y="318">Autoscale on p95 + queue depth</text>
+
+  <!-- SERVICES -->
+  <rect class="lane" x="880" y="96" width="230" height="290"/>
+  <text class="lane-t" x="896" y="120">DOMAIN SERVICES</text>
+  <rect class="box" x="896" y="132" width="198" height="34"/>
+  <text class="t" x="910" y="154">Listing</text>
+  <rect class="box" x="896" y="174" width="198" height="34"/>
+  <text class="t" x="910" y="196">Search</text>
+  <rect class="box" x="896" y="216" width="198" height="34"/>
+  <text class="t" x="910" y="238">Availability + Pricing</text>
+  <rect class="box" x="896" y="258" width="198" height="34"/>
+  <text class="t" x="910" y="280">Booking → Payments</text>
+  <rect class="box" x="896" y="300" width="198" height="34"/>
+  <text class="t" x="910" y="322">Reviews · Messaging</text>
+
+  <!-- STORAGE -->
+  <rect class="lane" x="1150" y="96" width="210" height="290"/>
+  <text class="lane-t" x="1166" y="120">STORAGE</text>
+  <rect class="db" x="1166" y="132" width="178" height="60"/>
+  <text class="t" x="1180" y="152">PostgreSQL</text>
+  <text class="s" x="1180" y="170">sharded by listing_id</text>
+  <text class="s" x="1180" y="184">+ read replicas</text>
+  <rect class="db" x="1166" y="202" width="178" height="46"/>
+  <text class="t" x="1180" y="222">Redis</text>
+  <text class="s" x="1180" y="240">hot listings · locks</text>
+  <rect class="db" x="1166" y="258" width="178" height="46"/>
+  <text class="t" x="1180" y="278">OpenSearch</text>
+  <text class="s" x="1180" y="296">geo · facets · ranking</text>
+  <rect class="db" x="1166" y="314" width="178" height="46"/>
+  <text class="t" x="1180" y="334">Object store</text>
+  <text class="s" x="1180" y="352">original photos</text>
+
+  <!-- EDGES across the top row -->
+  <path class="edge-h" d="M244 158 H310"/>
+  <path class="edge-h" d="M244 170 Q280 300 310 302"/>
+  <path class="edge" d="M534 158 H600 V150"/>
+  <path class="edge-h" d="M534 228 H600"/>
+  <text class="elabel" x="540" y="222">miss</text>
+  <path class="edge" d="M824 180 Q860 200 890 200"/>
+  <path class="edge" d="M824 250 H890"/>
+  <path class="edge" d="M1094 150 Q1130 150 1160 150"/>
+  <path class="edge" d="M1094 232 Q1130 232 1160 225"/>
+  <path class="edge" d="M1094 192 Q1130 280 1160 280"/>
+  <path class="edge-h" d="M534 330 Q820 400 1160 340"/>
+
+  <!-- ASYNC -->
+  <rect class="lane" x="300" y="430" width="810" height="150"/>
+  <text class="lane-t" x="316" y="454">EVENT BACKBONE — eventual consistency where it is safe</text>
+  <rect class="box" x="330" y="470" width="200" height="86"/>
+  <text class="t" x="346" y="492">Kafka</text>
+  <text class="s" x="346" y="512">listing.changed</text>
+  <text class="s" x="346" y="528">booking.confirmed</text>
+  <text class="s" x="346" y="544">review.created</text>
+  <rect class="box" x="580" y="470" width="220" height="86"/>
+  <text class="t" x="596" y="492">Workers</text>
+  <text class="s" x="596" y="512">search indexing</text>
+  <text class="s" x="596" y="528">thumbnail derivation</text>
+  <text class="s" x="596" y="544">email · payouts</text>
+  <rect class="box" x="850" y="470" width="230" height="86"/>
+  <text class="t" x="866" y="492">Cache invalidation</text>
+  <text class="s" x="866" y="512">event-driven, not TTL guessing</text>
+  <text class="s" x="866" y="528">→ purge CDN tag</text>
+  <text class="s" x="866" y="544">→ evict Redis key</text>
+
+  <path class="edge" d="M960 340 Q960 400 700 466"/>
+  <path class="edge" d="M530 513 H576"/>
+  <path class="edge" d="M800 513 H846"/>
+  <path class="edge" d="M965 466 Q1000 420 1200 366"/>
+
+  <!-- BOOKING CORRECTNESS -->
+  <rect class="lane" x="40" y="620" width="640" height="280"/>
+  <text class="lane-t" x="56" y="644">WRITE PATH — CORRECTNESS OVER THROUGHPUT</text>
+  <text class="s" x="56" y="668" font-size="12.5">Double-booking is prevented by the database, not by application luck.</text>
+  <text class="s" x="56" y="684" font-size="12.5">Two racing requests cannot both win; the loser retries optimistically.</text>
+  <rect x="56" y="700" width="608" height="130" rx="8" fill="#f7f7f7" stroke="#dddddd"/>
+  <text font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#222">
+    <tspan x="72" y="724">ALTER TABLE bookings</tspan>
+    <tspan x="86" y="742">ADD CONSTRAINT no_double_booking</tspan>
+    <tspan x="86" y="760">EXCLUDE USING gist (</tspan>
+    <tspan x="100" y="778">listing_id WITH =,</tspan>
+    <tspan x="100" y="796">daterange(check_in, check_out, '[)') WITH &amp;&amp;</tspan>
+    <tspan x="86" y="814">) WHERE (status IN ('confirmed','pending'));</tspan>
+  </text>
+  <text class="s" x="56" y="856" font-size="12.5">Payments are idempotent (client key) and reconciled by webhook —</text>
+  <text class="s" x="56" y="872" font-size="12.5">never assumed successful from a synchronous response.</text>
+
+  <!-- DEPLOYMENT -->
+  <rect class="lane" x="720" y="620" width="640" height="280"/>
+  <text class="lane-t" x="736" y="644">DEPLOYMENT</text>
+  <rect class="box" x="736" y="660" width="290" height="70"/>
+  <text class="t" x="752" y="682">CI gates</text>
+  <text class="s" x="752" y="700">typecheck · lint · unit</text>
+  <text class="s" x="752" y="716">a11y · visual regression</text>
+  <rect class="box" x="1050" y="660" width="294" height="70"/>
+  <text class="t" x="1066" y="682">Progressive delivery</text>
+  <text class="s" x="1066" y="700">canary slice → watch p95</text>
+  <text class="s" x="1066" y="716">auto-rollback on regression</text>
+  <rect class="box" x="736" y="746" width="290" height="70"/>
+  <text class="t" x="752" y="768">Feature flags</text>
+  <text class="s" x="752" y="786">deploy decoupled from</text>
+  <text class="s" x="752" y="802">release; risky change ships dark</text>
+  <rect class="box" x="1050" y="746" width="294" height="70"/>
+  <text class="t" x="1066" y="768">Multi-region</text>
+  <text class="s" x="1066" y="786">active-active reads</text>
+  <text class="s" x="1066" y="802">primary-region writes + failover</text>
+  <text class="s" x="736" y="848" font-size="12.5">Observability: distributed tracing BFF → services, RED metrics per service,</text>
+  <text class="s" x="736" y="866" font-size="12.5">real-user Core Web Vitals, alerting on SLO burn rate rather than raw thresholds.</text>
+  <path class="edge" d="M1026 695 H1046"/>
+  <path class="edge" d="M1026 781 H1046"/>
+</svg>
