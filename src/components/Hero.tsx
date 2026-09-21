@@ -69,7 +69,7 @@ export function Hero({
                 alt={photo.alt}
                 fill
                 sizes={i === 0 ? "560px" : "272px"}
-                preload={i === 0}
+                priority={i === 0}
                 className="object-cover transition-transform duration-300 ease-[var(--ease-airbnb)] group-hover:scale-[1.045]"
               />
               <span
