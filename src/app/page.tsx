@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { ListingInteractions } from "@/components/ListingInteractions";
 
 const developerImageNumbers = [
   "01", "02", "03", "04", "05", "06", "08", "09", "10", "11",
@@ -71,6 +72,8 @@ export default async function Page() {
     <>
       <style dangerouslySetInnerHTML={{ __html: style }} />
       <div id="root" dangerouslySetInnerHTML={{ __html: markup }} />
+      <ListingInteractions />
     </>
   );
 }
+
