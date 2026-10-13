@@ -1,0 +1,16 @@
+
+> playpowerlabs-airbnb-clone@1.0.0 dev
+> next dev -p 3402
+
+   ▲ Next.js 15.5.27
+   - Local:        http://localhost:3402
+   - Network:      http://26.190.147.4:3402
+
+ ✓ Starting...
+ ✓ Ready in 3s
+ ○ Compiling / ...
+ ✓ Compiled / in 7.2s (573 modules)
+ GET / 200 in 9747ms
+ ✓ Compiled in 3.3s (227 modules)
+ ✓ Compiled in 3.4s (227 modules)
+ ✓ Compiled in 987ms (227 modules)

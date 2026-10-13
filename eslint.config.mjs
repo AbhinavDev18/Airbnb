@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The project previously used Vite. These unreferenced legacy files are
+    // retained for history but are not part of the Next.js application.
+    "src/App.tsx",
+    "src/main.tsx",
+    "src/data.ts",
+    "src/styles.css",
   ]),
 ]);
 

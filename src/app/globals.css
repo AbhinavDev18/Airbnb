@@ -5,12 +5,12 @@
    * Figtree stands in for Airbnb Cereal, which is proprietary and not ours to
    * redistribute. It is the same class of geometric sans, covers the same
    * 300..900 variable range, and is what the reference itself falls back to.
-   * Loaded via next/font in layout.tsx, which self-hosts it at build time and
-   * exposes it as --font-figtree.
+   * A local system stack avoids an external font download changing or blocking
+   * the rendered listing.
    */
   --font-sans:
-    var(--font-figtree), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
 
   /* Airbnb's palette, sampled off the reference render. */
   --color-ink: #222222; /* primary text */
