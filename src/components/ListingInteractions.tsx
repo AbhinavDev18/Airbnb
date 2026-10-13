@@ -302,7 +302,7 @@ export function ListingInteractions() {
       descMoreBtn.addEventListener("click", () => {
         descText.style.maxHeight = "none";
         descText.style.webkitMaskImage = "none";
-        (descText.style as any).maskImage = "none";
+        descText.style.setProperty("mask-image", "none");
         descMoreBtn.style.display = "none";
       });
     }
